@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Button from "../Button/Button";
 
 export const ProductCardContainer = styled.div`
   width: 100%;
@@ -50,4 +51,8 @@ export const Footer = styled.div`
   .price {
     width: 10%;
   }
+`;
+
+export const AdaptedButton = styled(Button)`
+  font-size: 12px;
 `;

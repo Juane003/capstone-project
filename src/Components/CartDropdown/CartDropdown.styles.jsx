@@ -28,5 +28,7 @@ export const EmptyMessage = styled.span`
 `;
 
 export const CheckoutButton = styled(Button)`
-  margin-top: auto;
+  margin-top: 5px;
+  width: 100%;
+  font-size: 12px;
 `;

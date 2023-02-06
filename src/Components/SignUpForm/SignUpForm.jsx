@@ -1,14 +1,11 @@
 import { useState } from "react";
 
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
-
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
 import { SignUpContainer } from "./signUpForm.styles.jsx";
+import { useDispatch } from "react-redux";
+import { signUpStart } from "../../store/user/user.action";
 
 const defaultFormFields = {
   displayName: "",
@@ -17,10 +14,10 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
-const SingUpForm = () => {
+const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-
+  const dispatch = useDispatch();
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -31,12 +28,7 @@ const SingUpForm = () => {
     if (password !== confirmPassword) return alert("Passwords doesn't match");
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await createUserDocumentFromAuth(user, { displayName });
-
+      dispatch(signUpStart(email, password, displayName));
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/email-already-in-use")
@@ -54,7 +46,7 @@ const SingUpForm = () => {
   return (
     <SignUpContainer>
       <h2>Don't have an account?</h2>
-      <span>Sing up with your email and password</span>
+      <span>Signnup with your email and password</span>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Display Name"
@@ -92,10 +84,10 @@ const SingUpForm = () => {
           value={confirmPassword}
         />
 
-        <Button type="submit">Sing Up</Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </SignUpContainer>
   );
 };
 
-export default SingUpForm;
+export default SignUpForm;

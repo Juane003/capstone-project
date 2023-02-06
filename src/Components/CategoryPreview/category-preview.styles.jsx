@@ -15,6 +15,6 @@ export const Title = styled(Link)`
 
 export const Preview = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   column-gap: 20px;
 `;

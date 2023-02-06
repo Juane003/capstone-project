@@ -39,8 +39,8 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const singInWithGooglePopup = () => signInWithPopup(auth, provider);
-export const singInWithGoogleRedirect = () =>
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, provider);
 
 export const db = getFirestore();
@@ -49,15 +49,10 @@ export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
 
   const q = query(collectionRef);
+
   const querySnapshot = await getDocs(q);
 
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
-
-  return categoryMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 export const addColectionAndDocuments = async (collectionKey, objectsToAdd) => {
@@ -70,7 +65,6 @@ export const addColectionAndDocuments = async (collectionKey, objectsToAdd) => {
   });
 
   await batch.commit();
-  console.log("done");
 };
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   if (!userAuth) return;
@@ -102,7 +96,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const singInWithEmailAndPasswordAuth = async (email, password) => {
+export const signInWithEmailAndPasswordAuth = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
 };
@@ -111,3 +105,16 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

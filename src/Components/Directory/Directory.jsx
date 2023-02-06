@@ -37,7 +37,12 @@ const categories = [
 const Directory = () => {
   const renderCategories = categories.map(({ title, id, imageUrl, route }) => {
     return (
-      <DirectoryItem category={title} key={id} image={imageUrl} route={route} />
+      <DirectoryItem
+        category={title.toUpperCase()}
+        key={id}
+        image={imageUrl}
+        route={route}
+      />
     );
   });
 
