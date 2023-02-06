@@ -1,3 +1,3 @@
-E-Commerce Project from the course "Zero To Mastery: Complete React Developer in 2023"
+E-Commerce Project from the course "Zero To Mastery: Complete React Developer in 2023"\n
 Stack: Typescript, React, Styled Components, Redux, Redux Saga, Firebase and Stripe
 Live Demo: https://crwn-react.netlify.app/
